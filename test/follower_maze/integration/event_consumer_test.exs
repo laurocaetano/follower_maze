@@ -11,7 +11,7 @@ defmodule FollowerMaze.Notifiers.EventConsumerTest do
     event = Event.from("1|F|12|9\n")
 
     awaiting_message = connect_client_and_wait_for_messages(event.to)
-    emit_event(event)
+    register_event(event)
 
     EventConsumer.start_link(1)
 
@@ -23,8 +23,8 @@ defmodule FollowerMaze.Notifiers.EventConsumerTest do
     follow_event = Event.from("1|F|12|9\n")
     unfollow_event = Event.from("2|U|9|12\n")
 
-    emit_event(follow_event)
-    emit_event(unfollow_event)
+    register_event(follow_event)
+    register_event(unfollow_event)
     EventConsumer.start_link(1)
 
     followers = Followers.followers_of(unfollow_event.to)
@@ -35,7 +35,7 @@ defmodule FollowerMaze.Notifiers.EventConsumerTest do
     event = Event.from("1|P|32|56\n")
 
     awaiting_message = connect_client_and_wait_for_messages(event.to)
-    emit_event(event)
+    register_event(event)
 
     EventConsumer.start_link(1)
 
@@ -48,7 +48,7 @@ defmodule FollowerMaze.Notifiers.EventConsumerTest do
     event = Event.from("1|B\n")
 
     awaiting_message = connect_client_and_wait_for_messages(connected_client_id)
-    emit_event(event)
+    register_event(event)
 
     EventConsumer.start_link(1)
 
@@ -61,8 +61,8 @@ defmodule FollowerMaze.Notifiers.EventConsumerTest do
     status_update = Event.from("2|S|9\n")
     awaiting_message = connect_client_and_wait_for_messages(follow_event.from)
 
-    emit_event(follow_event)
-    emit_event(status_update)
+    register_event(follow_event)
+    register_event(status_update)
     EventConsumer.start_link(1)
 
     data = Task.await(awaiting_message)

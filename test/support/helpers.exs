@@ -2,6 +2,13 @@ defmodule FollowerMaze.TestHelpers do
   alias FollowerMaze.Registries.Events
 
   def emit_event(event) do
+    {:ok, source} = :gen_tcp.connect('localhost', 9090, [])
+    :gen_tcp.send(source, event.raw_event)
+
+    :timer.sleep(100) # wait until we send the tcp event
+  end
+
+  def register_event(event) do
     Events.put(event.raw_event)
     :timer.sleep(100) # time required to consume the event
   end
