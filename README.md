@@ -1,7 +1,7 @@
 # FollowerMaze Solution
 
-This application is responsible for listening to an event source and for
-forwarding them to connected clients when appropriate.
+This application is responsible for listening to an event source and to
+forward them to connected clients when appropriate.
 
 ## How it works
 
@@ -17,19 +17,21 @@ to relevant clients.
 This application is written in Elixir and uses `mix` to manage dependencies and
 to build the app.
 
-First, make sure to have Elixir `1.3+` installed. The installation steps can
+First, make sure to have Elixir `1.4+` installed. The installation steps can
 be found [here](http://elixir-lang.org/install.html).
 
-After a successful installation, follow the following steps:
+After a successful installation, follow these steps:
 
   * `$ mix deps.get` to get the dependencies
-  * `$ mix run --no-halt`
+  * `$ ./server.sh`
 
 ## Development and tests
 
 Before adding a feature, make sure that all the tests are green, by running:
 
 `$ mix test`.
+
+Please add unit and integration tests for your new feature.
 
 ## The Application Design
 
@@ -48,7 +50,7 @@ to the `Registries.Events` registry.
 The **ClientHandler** will listen to clients connecting to it and it will save
 the reference to these connections in `Registries.ConnectedClients` registry.
 
-The consumer is started together with the servers. It will fetch events from
+The `EventConsumer` is started together with the servers. It will fetch events from
 the `Registries.Events` register and will deliver them to the respective users,
 using the `EventForwarder`.
 
