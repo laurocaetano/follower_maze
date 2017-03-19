@@ -8,6 +8,7 @@ defmodule FollowerMaze do
       supervisor(FollowerMaze.Registries.Events, []),
       supervisor(FollowerMaze.Registries.Followers, []),
       supervisor(FollowerMaze.Registries.ConnectedClients, []),
+      worker(FollowerMaze.Notifiers.EventConsumer, [1]),
       worker(FollowerMaze.Server.ClientHandler, [9099]),
       worker(FollowerMaze.Server.EventHandler, [9090])
     ]
