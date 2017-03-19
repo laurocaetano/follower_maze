@@ -33,7 +33,12 @@ defmodule FollowerMaze.Registries.ConnectedClients do
     {:noreply, Map.delete(state, id)}
   end
 
-  def handle_call({:get, id}, _from, state) do
+  def handle_call({:get, id}, _from, state) when is_binary(id) do
+    {:reply, Map.get(state, id), state}
+  end
+
+  def handle_call({:get, id}, _from, state) when is_integer(id) do
+    id = Integer.to_string(id)
     {:reply, Map.get(state, id), state}
   end
 end
