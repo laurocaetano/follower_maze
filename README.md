@@ -25,4 +25,45 @@ After a successful installation, follow the following steps:
   * `$ mix deps.get` to get the dependencies
   * `$ mix run --no-halt`
 
+## Development and tests
+
+Before adding a feature, make sure that all the tests are green, by running:
+
+`$ mix test`.
+
 ## The Application Design
+
+The application has a relatively simple flow:
+
+![architecture](docs/system_flow.jpg)
+
+It starts two servers:
+
+  * **ClientHandler**
+  * **EventsHandler**
+
+The **EventsHandler** will listen to the event source and register the `Event`
+to the `Registries.Events` registry.
+
+The **ClientHandler** will listen to clients connecting to it and it will save
+the reference to these connections in `Registries.ConnectedClients` registry.
+
+The consumer is started together with the servers. It will fetch events from
+the `Registries.Events` register and will deliver them to the respective users,
+using the `EventForwarder`.
+
+There is also a mechanism to store the users and their respective followers. It
+is updated when consuming the events, and the information is stored in the
+`Registries.Followers` registry.
+
+## Notes about further improvements
+
+It is important no note that the project is not using a back-pressure mechanism
+when consuming the events. This could be applied in the future, together with a
+partition mechanism (for scaling purpose). We could create multiple consumers,
+based on a partition rule.
+
+Another point is related to the client connection. Every time a client connects
+to the server, it will start a new process. In order to prevent a memory overflow,
+we could use a poll mechanism, so we can handle a finite amount of connections at
+the same time.
