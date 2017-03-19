@@ -1,15 +1,8 @@
 defmodule FollowerMaze.Server.EventHandlerTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   alias FollowerMaze.Registries.Events
-  alias FollowerMaze.Server.EventHandler
   alias FollowerMaze.Types.Event
-
-  setup do
-    Events.start_link
-    EventHandler.start_link(9090)
-    :ok
-  end
 
   test "when receiving a new event, adds to the EventRegistry" do
     raw_event = "666|F|60|50\n"

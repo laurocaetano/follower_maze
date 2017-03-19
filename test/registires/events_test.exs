@@ -1,13 +1,8 @@
 defmodule FollowerMaze.Registries.EventsTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   alias FollowerMaze.Registries.Events
   alias FollowerMaze.Types.Event
-
-  setup do
-    Events.start_link
-    :ok
-  end
 
   test "puts Event" do
     raw_event = "666|F|60|50\n"

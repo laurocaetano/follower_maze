@@ -1,12 +1,7 @@
 defmodule FollowerMaze.Registries.ConnectedClientsTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   alias FollowerMaze.Registries.ConnectedClients
-
-  setup do
-    ConnectedClients.start_link
-    :ok
-  end
 
   test "register a new user" do
     user = %{}

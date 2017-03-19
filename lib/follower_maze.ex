@@ -1,18 +1,19 @@
 defmodule FollowerMaze do
-  @moduledoc """
-  Documentation for FollowerMaze.
-  """
+  use Application
 
-  @doc """
-  Hello world.
+  def start(_type, _args) do
+    import Supervisor.Spec
 
-  ## Examples
+    children = [
+      supervisor(FollowerMaze.Registries.Events, []),
+      supervisor(FollowerMaze.Registries.Followers, []),
+      supervisor(FollowerMaze.Registries.ConnectedClients, []),
+      worker(FollowerMaze.Server.ClientHandler, [9099]),
+      worker(FollowerMaze.Server.EventHandler, [9090])
+    ]
 
-      iex> FollowerMaze.hello
-      :world
+    opts = [strategy: :one_for_one, name: SoundCloudPrototype.Supervisor]
 
-  """
-  def hello do
-    :world
+    Supervisor.start_link(children, opts)
   end
 end

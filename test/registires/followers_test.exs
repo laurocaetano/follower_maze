@@ -1,12 +1,7 @@
 defmodule FollowerMaze.Registries.FollowersTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   alias FollowerMaze.Registries.Followers
-
-  setup do
-    Followers.start_link
-    :ok
-  end
 
   test "adds follower" do
     user = "1"
@@ -18,7 +13,7 @@ defmodule FollowerMaze.Registries.FollowersTest do
   end
 
   test "removes follower" do
-    user = "1"
+    user = "3"
     follower_1 = "2"
     follower_2 = "3"
 
