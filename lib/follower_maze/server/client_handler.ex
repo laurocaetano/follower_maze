@@ -1,4 +1,6 @@
 defmodule FollowerMaze.Server.ClientHandler do
+  require Logger
+
   alias FollowerMaze.Registries.ConnectedClients
 
   @connection_options [:binary, packet: :line, active: false, reuseaddr: true]
@@ -11,11 +13,14 @@ defmodule FollowerMaze.Server.ClientHandler do
 
   def init(port) do
     {:ok, server} = :gen_tcp.listen(port, @connection_options)
+
     accept_connections(server)
   end
 
   defp accept_connections(server) do
     {:ok, client_connection} = :gen_tcp.accept(server)
+
+    Logger.info("New client connected.")
 
     spawn(fn() -> receive_events(client_connection, nil) end)
 
@@ -29,10 +34,8 @@ defmodule FollowerMaze.Server.ClientHandler do
 
 	ConnectedClients.register(client_id, client_connection)
 	receive_events(client_connection, client_id)
-      { :error, :closed } ->
-	ConnectedClients.unregister(client_id)
-	:gen_tcp.close(client_connection)
       _ ->
+	Logger.info("Client disconnected.")
 	ConnectedClients.unregister(client_id)
 	:gen_tcp.close(client_connection)
     end

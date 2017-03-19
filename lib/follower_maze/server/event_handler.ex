@@ -1,4 +1,6 @@
 defmodule FollowerMaze.Server.EventHandler do
+  require Logger
+
   alias FollowerMaze.Registries.Events
 
   @connection_options [:binary, packet: :line, active: false, reuseaddr: true]
@@ -13,6 +15,8 @@ defmodule FollowerMaze.Server.EventHandler do
     {:ok, server} = :gen_tcp.listen(port, @connection_options)
     {:ok, event_source} = :gen_tcp.accept(server)
 
+    Logger.info("Listening for events.")
+
     receive_events(event_source)
   end
 
@@ -21,9 +25,8 @@ defmodule FollowerMaze.Server.EventHandler do
       {:ok, raw_event} ->
 	Events.put(raw_event)
 	receive_events(event_source)
-      { :error, :closed } ->
-	:gen_tcp.close(event_source)
       _ ->
+	Logger.info("Event source disconnected.")
 	:gen_tcp.close(event_source)
     end
   end
