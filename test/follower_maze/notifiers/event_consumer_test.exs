@@ -56,7 +56,7 @@ defmodule FollowerMaze.Notifiers.EventConsumerTest do
     assert data == event.raw_event
   end
 
-  test "consumes Status Update events but dont notify the users" do
+  test "consumes Status Update and notify the users" do
     follow_event = Event.from("1|F|12|9\n")
     status_update = Event.from("2|S|9\n")
     awaiting_message = connect_client_and_wait_for_messages(follow_event.from)
