@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/laurocaetano/follower_maze/tree/master.svg?style=svg)](https://circleci.com/gh/laurocaetano/follower_maze/tree/master)
+
 # FollowerMaze Solution
 
 This application is responsible for listening to an event source and to
